@@ -49,6 +49,7 @@ class LoginActivity : BaseActivity() {
                         val token = dataObj.getString("token")
 
                         ContextUtil.setLoginToken(mContext, token)
+
                         runOnUiThread {
                             Toast.makeText(mContext, "${nickname}님 환영합니다.", Toast.LENGTH_SHORT).show()
 

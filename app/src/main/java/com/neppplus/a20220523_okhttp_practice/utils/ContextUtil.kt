@@ -31,6 +31,11 @@ class ContextUtil {
             return pref.getBoolean(AUTO_LOGIN, false)
         }
 
+        fun clear( context: Context ) {
+            val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+            pref.edit().clear().apply()
+        }
+
     }
 
 }
