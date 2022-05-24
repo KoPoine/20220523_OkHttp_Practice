@@ -2,6 +2,8 @@ package com.neppplus.a20220523_okhttp_practice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.neppplus.a20220523_okhttp_practice.databinding.ActivityDetailTopicBinding
@@ -24,7 +26,15 @@ class DetailTopicActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+//        vote1Btn 클릭 > 해당 진영의 id값을 찾아서 거기에 투표
+//        서버에 전달 > API 활용
+        binding.vote1Btn.setOnClickListener {
+            voteSide (mTopicData.sideList[0].id)
+        }
 
+        binding.vote2Btn.setOnClickListener {
+            voteSide(mTopicData.sideList[1].id)
+        }
     }
 
     override fun setValues() {
@@ -45,6 +55,10 @@ class DetailTopicActivity : BaseActivity() {
 
                 mTopicData = topicData
 
+                runOnUiThread {
+                    setTopicDataToUi()
+                }
+
             }
         })
     }
@@ -61,6 +75,29 @@ class DetailTopicActivity : BaseActivity() {
 
         binding.vote1CountTxt.text = "${mTopicData.sideList[0].voteCount}표"
         binding.vote2CountTxt.text = "${mTopicData.sideList[1].voteCount}표"
+    }
+
+    fun voteSide(sideId : Int) {
+        //            서버의 투표 API 호출
+        ServerUtil.postRequestVote(mContext, sideId, object : ServerUtil.Companion.JsonResponseHandler{
+            override fun onResponse(jsonObj: JSONObject) {
+                val code = jsonObj.getInt("code")
+                val message = jsonObj.getString("message")
+
+                runOnUiThread {
+                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+
+                    if (code == 200) {
+                        val dataObj = jsonObj.getJSONObject("data")
+                        val topicObj = dataObj.getJSONObject("topic")
+
+                        mTopicData = TopicData.getTopicDataFromJson(topicObj)
+
+                        setTopicDataToUi()
+                    }
+                }
+            }
+        })
     }
 }
 

@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="토론 제목 자리"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
                     android:textColor="@color/white"/>
 
                 <LinearLayout
@@ -55,6 +55,7 @@
                             android:id="@+id/side1Txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="16sp"
                             android:text="1번 진영"
                             android:textColor="@color/white"/>
 
@@ -64,6 +65,12 @@
                             android:layout_height="wrap_content"
                             android:text="0표"
                             android:textColor="@color/white"/>
+
+                        <Button
+                            android:id="@+id/vote1Btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="투표하기"/>
 
                     </LinearLayout>
 
@@ -84,6 +91,7 @@
                             android:id="@+id/side2Txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textSize="16sp"
                             android:text="2번 진영"
                             android:textColor="@color/white"/>
 
@@ -93,6 +101,13 @@
                             android:layout_height="wrap_content"
                             android:text="0표"
                             android:textColor="@color/white"/>
+
+                        <Button
+                            android:id="@+id/vote2Btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="투표하기"/>
+
 
                     </LinearLayout>
 
