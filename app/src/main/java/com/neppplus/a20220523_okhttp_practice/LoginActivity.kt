@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.neppplus.a20220523_okhttp_practice.databinding.ActivityLoginBinding
+import com.neppplus.a20220523_okhttp_practice.utils.ContextUtil
 import com.neppplus.a20220523_okhttp_practice.utils.ServerUtil
 import org.json.JSONObject
 
@@ -20,6 +21,10 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+        binding.autoLoginCheckBox.setOnCheckedChangeListener { compoundButton, isChecked ->
+            ContextUtil.setAutoLogin(mContext, isChecked)
+        }
+
         binding.signUpBtn.setOnClickListener {
             val myIntent = Intent(mContext, SignUpActivity::class.java)
             startActivity(myIntent)
@@ -41,8 +46,9 @@ class LoginActivity : BaseActivity() {
                         val dataObj = jsonObj.getJSONObject("data")
                         val userObj = dataObj.getJSONObject("user")
                         val nickname = userObj.getString("nick_name")
+                        val token = dataObj.getString("token")
 
-
+                        ContextUtil.setLoginToken(mContext, token)
                         runOnUiThread {
                             Toast.makeText(mContext, "${nickname}님 환영합니다.", Toast.LENGTH_SHORT).show()
 
@@ -66,6 +72,6 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setValues() {
-
+        binding.autoLoginCheckBox.isChecked = ContextUtil.getAutoLogin(mContext)
     }
 }

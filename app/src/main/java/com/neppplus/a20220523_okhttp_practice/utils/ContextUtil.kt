@@ -6,10 +6,10 @@ class ContextUtil {
 
     companion object {
 
-        val prefName = "OkHttpPracticePref"
+        private val prefName = "OkHttpPracticePref"
 
-        val AUTO_LOGIN = "AUTO_LOGIN"
-        val LOGIN_TOKEN = "LOGIN_TOKEN"
+        private val AUTO_LOGIN = "AUTO_LOGIN"
+        private val LOGIN_TOKEN = "LOGIN_TOKEN"
 
         fun setLoginToken (context: Context, token : String) {
             val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
