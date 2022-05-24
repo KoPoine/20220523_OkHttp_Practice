@@ -1,6 +1,8 @@
 package com.neppplus.a20220523_okhttp_practice.models
 
-class TopicData  {
+import java.io.Serializable
+
+class TopicData : Serializable {
 
     var id = 0
     var title = ""

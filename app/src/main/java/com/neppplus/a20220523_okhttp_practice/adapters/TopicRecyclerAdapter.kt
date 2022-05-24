@@ -1,6 +1,7 @@
 package com.neppplus.a20220523_okhttp_practice.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.neppplus.a20220523_okhttp_practice.DetailTopicActivity
 import com.neppplus.a20220523_okhttp_practice.R
 import com.neppplus.a20220523_okhttp_practice.databinding.TopicListItemBinding
 import com.neppplus.a20220523_okhttp_practice.models.TopicData
@@ -28,6 +30,12 @@ class TopicRecyclerAdapter(val mContext : Context, val mList : List<TopicData>) 
             Glide.with(mContext)
                 .load(item.imageUrl)
                 .into(binding.backgroundImg)
+
+            itemView.setOnClickListener {
+                val myIntent = Intent(mContext, DetailTopicActivity::class.java)
+                myIntent.putExtra("topicData",item)
+                mContext.startActivity(myIntent)
+            }
         }
     }
 
