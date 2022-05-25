@@ -3,13 +3,20 @@ package com.neppplus.a20220523_okhttp_practice
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.neppplus.a20220523_okhttp_practice.databinding.ActivityProfileBinding
+import com.neppplus.a20220523_okhttp_practice.models.UserData
+import com.neppplus.a20220523_okhttp_practice.utils.ContextUtil
 import com.neppplus.a20220523_okhttp_practice.utils.GlobalData
+import com.neppplus.a20220523_okhttp_practice.utils.ServerUtil
+import org.json.JSONObject
 
 class ProfileActivity : BaseActivity() {
 
     lateinit var binding : ActivityProfileBinding
+
+    var currentPw = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +43,35 @@ class ProfileActivity : BaseActivity() {
         binding.saveChangedBtn.setOnClickListener {
             val inputNick = binding.changeNickEdt.text.toString()
             val changedPw = binding.changePwEdt.text.toString()
+            currentPw = "Test!123"
+
+            ServerUtil.patchRequestUserInfo(
+                mContext,
+                inputNick,
+                currentPw,
+                changedPw,
+                object : ServerUtil.Companion.JsonResponseHandler{
+                override fun onResponse(jsonObj: JSONObject) {
+                    val code = jsonObj.getInt("code")
+
+                    if (code == 200) {
+                        val dataObj = jsonObj.getJSONObject("data")
+                        val userObj = dataObj.getJSONObject("user")
+                        val token = dataObj.getString("token")
+
+                        GlobalData.loginUser = UserData().getUserDataFromJson(userObj)
+                        ContextUtil.setLoginToken(mContext, token)
+
+                        runOnUiThread {
+                            Toast.makeText(mContext, "정보가 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    else {
+                        val message = jsonObj.getString("message")
+                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
 
         }
     }
