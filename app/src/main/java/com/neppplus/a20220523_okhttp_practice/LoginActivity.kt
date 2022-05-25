@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.neppplus.a20220523_okhttp_practice.databinding.ActivityLoginBinding
+import com.neppplus.a20220523_okhttp_practice.models.UserData
 import com.neppplus.a20220523_okhttp_practice.utils.ContextUtil
+import com.neppplus.a20220523_okhttp_practice.utils.GlobalData
 import com.neppplus.a20220523_okhttp_practice.utils.ServerUtil
 import org.json.JSONObject
 
@@ -48,10 +50,12 @@ class LoginActivity : BaseActivity() {
                         val nickname = userObj.getString("nick_name")
                         val token = dataObj.getString("token")
 
+                        GlobalData.loginUser = UserData().getUserDataFromJson(userObj)
+
                         ContextUtil.setLoginToken(mContext, token)
 
                         runOnUiThread {
-                            Toast.makeText(mContext, "${nickname}님 환영합니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(mContext, "${GlobalData.loginUser!!.nickname}님 환영합니다.", Toast.LENGTH_SHORT).show()
 
                             val myIntent = Intent(mContext, MainActivity::class.java)
                             startActivity(myIntent)

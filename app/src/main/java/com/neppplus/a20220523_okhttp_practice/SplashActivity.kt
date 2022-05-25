@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import com.neppplus.a20220523_okhttp_practice.models.UserData
 import com.neppplus.a20220523_okhttp_practice.utils.ContextUtil
+import com.neppplus.a20220523_okhttp_practice.utils.GlobalData
 import com.neppplus.a20220523_okhttp_practice.utils.ServerUtil
 import org.json.JSONObject
 
@@ -28,8 +31,16 @@ class SplashActivity : BaseActivity() {
         ServerUtil.getRequestUserInfo(mContext, object : ServerUtil.Companion.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
                 val code = jsonObj.getInt("code")
-                isTokenOk = (code == 200)
+//                isTokenOk = (code == 200)
+                if (code == 200) {
+                    isTokenOk = true
+                    val dataObj = jsonObj.getJSONObject("data")
+                    val userObj = dataObj.getJSONObject("user")
+
+                    GlobalData.loginUser = UserData().getUserDataFromJson(userObj)
+                }
             }
+
         })
 
         myHandler.postDelayed({
