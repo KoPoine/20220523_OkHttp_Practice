@@ -84,6 +84,7 @@ class ProfileActivity : BaseActivity() {
             alert.myDialog(
                 "회원 탈퇴",
                 "정말 탈퇴하시겠습니까?",
+                true,
                 object : CustomAlertDialog.ButtonClickListener{
                     override fun positiveBtnClicked() {
                         Toast.makeText(mContext, "탈퇴 성공", Toast.LENGTH_SHORT).show()

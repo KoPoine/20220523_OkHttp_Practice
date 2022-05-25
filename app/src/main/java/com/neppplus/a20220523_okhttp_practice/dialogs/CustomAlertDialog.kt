@@ -3,7 +3,10 @@ package com.neppplus.a20220523_okhttp_practice.dialogs
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import com.neppplus.a20220523_okhttp_practice.R
 import com.neppplus.a20220523_okhttp_practice.databinding.CustomAlertDialogBinding
 
 class CustomAlertDialog (val context : Context, val activity : Activity) {
@@ -13,7 +16,7 @@ class CustomAlertDialog (val context : Context, val activity : Activity) {
 
     lateinit var binding : CustomAlertDialogBinding
 
-    fun myDialog (title : String, body: String, onClickListener : ButtonClickListener) {
+    fun myDialog (title : String, body: String, isDelete : Boolean, onClickListener : ButtonClickListener) {
         binding = CustomAlertDialogBinding.inflate(activity.layoutInflater)
         dialog.setContentView(binding.root)
 
@@ -25,6 +28,14 @@ class CustomAlertDialog (val context : Context, val activity : Activity) {
 
         binding.titleTxt.text = title
         binding.bodyTxt.text = body
+
+
+        if (isDelete) {
+//        [응용문제]
+//        실행될때 환인 버튼의 색상을 red (#ff0000) 변경 > 구글링
+            binding.positiveBtn.setBackgroundColor(ContextCompat.getColor(context, R.color.red))
+        }
+
 
         binding.positiveBtn.setOnClickListener {
             onClickListener.positiveBtnClicked()
