@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.neppplus.a20220523_okhttp_practice.databinding.ActivityProfileBinding
+import com.neppplus.a20220523_okhttp_practice.dialogs.CustomAlertDialog
 import com.neppplus.a20220523_okhttp_practice.models.UserData
 import com.neppplus.a20220523_okhttp_practice.utils.ContextUtil
 import com.neppplus.a20220523_okhttp_practice.utils.GlobalData
@@ -69,11 +70,30 @@ class ProfileActivity : BaseActivity() {
                     }
                     else {
                         val message = jsonObj.getString("message")
-                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        runOnUiThread {
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             })
 
+        }
+
+        binding.deleteBtn.setOnClickListener {
+            val alert = CustomAlertDialog(mContext, this)
+            alert.myDialog(
+                "회원 탈퇴",
+                "정말 탈퇴하시겠습니까?",
+                object : CustomAlertDialog.ButtonClickListener{
+                    override fun positiveBtnClicked() {
+                        Toast.makeText(mContext, "탈퇴 성공", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun negativeBtnClicked() {
+                        Toast.makeText(mContext, "탈퇴 실패", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            )
         }
     }
 
