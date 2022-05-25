@@ -63,6 +63,7 @@ class ProfileActivity : BaseActivity() {
                         ContextUtil.setLoginToken(mContext, token)
 
                         runOnUiThread {
+                            binding.currentNickTxt.text = GlobalData.loginUser!!.nickname
                             Toast.makeText(mContext, "정보가 수정되었습니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
