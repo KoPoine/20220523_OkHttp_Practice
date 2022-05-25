@@ -1,5 +1,7 @@
 package com.neppplus.a20220523_okhttp_practice
 
+import android.content.Context
+import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
@@ -7,9 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    val mContext = this
+    lateinit var mContext : Context
+
+    lateinit var backBtn : ImageView
+    lateinit var titleTxt : TextView
+    lateinit var profileBtn : ImageView
 
     val TAG = javaClass.simpleName
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mContext = this
+
+//        액션바가 존재하는지 확인후(?) > 있다면 let으로 함수 진행
+        supportActionBar?.let {
+            setCustomActionBar()
+        }
+    }
 
     abstract fun setupEvents()
     abstract fun setValues()
@@ -26,9 +42,9 @@ abstract class BaseActivity : AppCompatActivity() {
         val myToolbar = defaultActionBar.customView.parent as androidx.appcompat.widget.Toolbar
         myToolbar.setContentInsetsAbsolute(0,0)
 
-        val backBtn = defaultActionBar.customView.findViewById<ImageView>(R.id.backBtn)
-        val titleTxt = defaultActionBar.customView.findViewById<TextView>(R.id.titleTxt)
-        val profileBtn = defaultActionBar.customView.findViewById<ImageView>(R.id.profileBtn)
+        backBtn = defaultActionBar.customView.findViewById<ImageView>(R.id.backBtn)
+        titleTxt = defaultActionBar.customView.findViewById<TextView>(R.id.titleTxt)
+        profileBtn = defaultActionBar.customView.findViewById<ImageView>(R.id.profileBtn)
 
         backBtn.setOnClickListener {
             finish()
