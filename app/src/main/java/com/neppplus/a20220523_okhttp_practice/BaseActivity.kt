@@ -1,6 +1,7 @@
 package com.neppplus.a20220523_okhttp_practice
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
@@ -48,6 +49,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
         backBtn.setOnClickListener {
             finish()
+        }
+
+        profileBtn.setOnClickListener {
+            val myIntent = Intent(mContext, ProfileActivity::class.java)
+            startActivity(myIntent)
         }
     }
 
