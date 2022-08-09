@@ -2,7 +2,6 @@ package com.neppplus.a20220523_okhttp_practice.utils
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.json.JSONObject
