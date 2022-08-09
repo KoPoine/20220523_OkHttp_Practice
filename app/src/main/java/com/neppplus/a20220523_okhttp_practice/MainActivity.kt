@@ -42,6 +42,8 @@ class MainActivity : BaseActivity() {
     override fun setValues() {
         getTopicListFromServer()
 
+        profileBtn.visibility = View.VISIBLE
+
         mTopicAdapter = TopicRecyclerAdapter(mContext,mTopicList)
         binding.topicRecyclerView.adapter = mTopicAdapter
         binding.topicRecyclerView.layoutManager = LinearLayoutManager(mContext)

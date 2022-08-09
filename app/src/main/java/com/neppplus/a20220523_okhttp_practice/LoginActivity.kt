@@ -36,7 +36,7 @@ class LoginActivity : BaseActivity() {
             val inputEmail = binding.emailEdt.text.toString()
             val inputPw = binding.passwordEdt.text.toString()
 
-            ServerUtil.postRequestLogin(inputEmail, inputPw, object : ServerUtil.Companion.JsonResponseHandler{
+            ServerUtil.postRequestLogin(inputEmail, inputPw, object : ServerUtil.JsonResponseHandler{
                 override fun onResponse(jsonObj: JSONObject) {
 
 //                    UI 입장에서, 로그인 결과를 받아서 처리할 코드

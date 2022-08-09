@@ -13,13 +13,15 @@ class ServerUtil {
 //    함수를 만들려고 하는데, 어떤 객체가 실행해도 결과만 잘 나오면 그만임 함수
 //    코틀린에서 JAVA의 static에 해당하는 개념? Companion object {  } 에 만들자
 
+    //    서버유틸로 돌아온 응답을 => 액티비티에서 처리하도록, 일처리 넘기기
+//    나에게 생긴 일을 > 다른 클래스에게 처리 요청 : interface 활용
+    interface JsonResponseHandler {
+        fun onResponse(jsonObj: JSONObject)
+    }
+
     companion object {
 
-        //    서버유틸로 돌아온 응답을 => 액티비티에서 처리하도록, 일처리 넘기기
-//    나에게 생긴 일을 > 다른 클래스에게 처리 요청 : interface 활용
-        interface JsonResponseHandler {
-            fun onResponse(jsonObj: JSONObject)
-        }
+
         //        서버 컴퓨터 주소만 변수로 저장 (관리 일원화) => 외부 노출 X
         private val BASE_URL = "http://54.180.52.26"
 
@@ -230,33 +232,51 @@ class ServerUtil {
             })
         }
 
-        fun getRequestTopicDetail(context: Context,topicId : Int , handler: JsonResponseHandler?) {
-            val token = ContextUtil.getLoginToken(context)
+        //        토론 주제별 상세 조회하기 - GET
 
-            val urlBuilder = "${BASE_URL}/topic/${topicId}".toHttpUrlOrNull()!!.newBuilder()
-                .build()
+        fun getRequestTopicDetail( context: Context, topicId: Int, orderType: String, handler: JsonResponseHandler? ) {
+
+            val urlBuilder =  "${BASE_URL}/topic".toHttpUrlOrNull()!!.newBuilder()  // 서버주소/기능주소 까지만.
+
+//            주소 양식 : Path - /topic/3  => /3 PathSegment라고 부름.
+//            주소 양식 : Query - /topic?name=조경진   QueryParameter 라고 부름.
+            urlBuilder.addPathSegment(topicId.toString())
+
+            urlBuilder.addEncodedQueryParameter("order_type", orderType)
+//            urlBuilder.addEncodedQueryParameter("value", value)
+
 
             val urlString = urlBuilder.toString()
+
+            Log.d("완성주소", urlString)
+
+
+//            Request를 만들때 헤더도 같이 첨부.
 
             val request = Request.Builder()
                 .url(urlString)
                 .get()
-                .header("X-Http-Token", token)
+                .header("X-Http-Token",  ContextUtil.getLoginToken(context))
                 .build()
+
+
+//            실제 API 호출 - client
 
             val client = OkHttpClient()
 
-            client.newCall(request).enqueue(object : Callback {
+            client.newCall(request).enqueue( object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
 
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    val jsonObj = JSONObject(response.body!!.string())
+                    val bodyString = response.body!!.string()
+                    val jsonObj = JSONObject(bodyString)
                     Log.d("서버응답", jsonObj.toString())
                     handler?.onResponse(jsonObj)
                 }
-            })
+            } )
+
         }
 
         fun postRequestVote (context: Context, sideId : Int, handler: JsonResponseHandler?) {

@@ -3,6 +3,7 @@ package com.neppplus.a20220523_okhttp_practice
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -41,7 +42,7 @@ class SignUpActivity : BaseActivity() {
             val inputPw = binding.passwordEdt.text.toString()
             val inputNickname = binding.nicknameEdt.text.toString()
 
-            ServerUtil.putRequestSignUp(inputEmail, inputPw, inputNickname, object : ServerUtil.Companion.JsonResponseHandler{
+            ServerUtil.putRequestSignUp(inputEmail, inputPw, inputNickname, object : ServerUtil.JsonResponseHandler{
                 override fun onResponse(jsonObj: JSONObject) {
 
                     Log.d("inputEmail", inputEmail)
@@ -82,12 +83,12 @@ class SignUpActivity : BaseActivity() {
     }
 
     override fun setValues() {
-
+        backBtn.visibility = View.VISIBLE
     }
 
     fun checkDuplicate(type : String, value : String, textView : TextView) {
 //        타입에 따른 중복 검사를 진행
-        ServerUtil.getRequestUserCheck(type, value, object : ServerUtil.Companion.JsonResponseHandler{
+        ServerUtil.getRequestUserCheck(type, value, object : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
                 val code = jsonObj.getInt("code")
                 val message = jsonObj.getString("message")

@@ -51,7 +51,7 @@ class ProfileActivity : BaseActivity() {
                 inputNick,
                 currentPw,
                 changedPw,
-                object : ServerUtil.Companion.JsonResponseHandler{
+                object : ServerUtil.JsonResponseHandler{
                 override fun onResponse(jsonObj: JSONObject) {
                     val code = jsonObj.getInt("code")
 

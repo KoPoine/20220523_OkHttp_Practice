@@ -28,7 +28,7 @@ class SplashActivity : BaseActivity() {
 
         var isTokenOk = false
 
-        ServerUtil.getRequestUserInfo(mContext, object : ServerUtil.Companion.JsonResponseHandler{
+        ServerUtil.getRequestUserInfo(mContext, object : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
                 val code = jsonObj.getInt("code")
 //                isTokenOk = (code == 200)

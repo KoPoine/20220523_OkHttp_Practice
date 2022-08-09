@@ -1,8 +1,6 @@
 package com.neppplus.a20220523_okhttp_practice
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -46,7 +44,7 @@ class DetailTopicActivity : BaseActivity() {
     }
 
     fun getTopicDetailFromServer () {
-        ServerUtil.getRequestTopicDetail(mContext, mTopicData.id, object : ServerUtil.Companion.JsonResponseHandler{
+        ServerUtil.getRequestTopicDetail(mContext, mTopicData.id, "NEW", object : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
                 val dataObj = jsonObj.getJSONObject("data")
                 val topicObj = dataObj.getJSONObject("topic")
@@ -79,7 +77,7 @@ class DetailTopicActivity : BaseActivity() {
 
     fun voteSide(sideId : Int) {
         //            서버의 투표 API 호출
-        ServerUtil.postRequestVote(mContext, sideId, object : ServerUtil.Companion.JsonResponseHandler{
+        ServerUtil.postRequestVote(mContext, sideId, object : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
                 val code = jsonObj.getInt("code")
                 val message = jsonObj.getString("message")
