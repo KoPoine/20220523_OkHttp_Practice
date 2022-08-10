@@ -37,7 +37,7 @@ class SplashActivity : BaseActivity() {
                     val dataObj = jsonObj.getJSONObject("data")
                     val userObj = dataObj.getJSONObject("user")
 
-                    GlobalData.loginUser = UserData().getUserDataFromJson(userObj)
+                    GlobalData.loginUser = UserData.getUserDataFromJson(userObj)
                 }
             }
 

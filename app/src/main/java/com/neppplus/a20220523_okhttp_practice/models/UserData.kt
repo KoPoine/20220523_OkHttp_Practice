@@ -8,15 +8,16 @@ class UserData {
     var email = ""
     var nickname = ""
 
-    fun getUserDataFromJson(jsonObj : JSONObject) : UserData {
+    companion object {
+        fun getUserDataFromJson(jsonObj : JSONObject) : UserData {
 
-        val userData = UserData()
+            val userData = UserData()
 
-        userData.id = jsonObj.getInt("id")
-        userData.email = jsonObj.getString("email")
-        userData.nickname = jsonObj.getString("nick_name")
+            userData.id = jsonObj.getInt("id")
+            userData.email = jsonObj.getString("email")
+            userData.nickname = jsonObj.getString("nick_name")
 
-        return userData
+            return userData
+        }
     }
-
 }

@@ -60,7 +60,7 @@ class ProfileActivity : BaseActivity() {
                         val userObj = dataObj.getJSONObject("user")
                         val token = dataObj.getString("token")
 
-                        GlobalData.loginUser = UserData().getUserDataFromJson(userObj)
+                        GlobalData.loginUser = UserData.getUserDataFromJson(userObj)
                         ContextUtil.setLoginToken(mContext, token)
 
                         runOnUiThread {

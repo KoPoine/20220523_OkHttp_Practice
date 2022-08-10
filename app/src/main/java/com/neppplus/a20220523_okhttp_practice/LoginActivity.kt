@@ -50,7 +50,7 @@ class LoginActivity : BaseActivity() {
                         val nickname = userObj.getString("nick_name")
                         val token = dataObj.getString("token")
 
-                        GlobalData.loginUser = UserData().getUserDataFromJson(userObj)
+                        GlobalData.loginUser = UserData.getUserDataFromJson(userObj)
 
                         ContextUtil.setLoginToken(mContext, token)
 

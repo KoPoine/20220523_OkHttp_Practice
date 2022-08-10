@@ -3,8 +3,11 @@ package com.neppplus.a20220523_okhttp_practice
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.neppplus.a20220523_okhttp_practice.adapters.ReplyRecyclerAdapter
 import com.neppplus.a20220523_okhttp_practice.databinding.ActivityDetailTopicBinding
+import com.neppplus.a20220523_okhttp_practice.models.ReplyData
 import com.neppplus.a20220523_okhttp_practice.models.TopicData
 import com.neppplus.a20220523_okhttp_practice.utils.ServerUtil
 import org.json.JSONObject
@@ -14,6 +17,10 @@ class DetailTopicActivity : BaseActivity() {
     lateinit var binding : ActivityDetailTopicBinding
 
     var mTopicData = TopicData()
+
+    val mReplyList = ArrayList<ReplyData>()
+
+    lateinit var mReplyAdapter : ReplyRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +48,10 @@ class DetailTopicActivity : BaseActivity() {
 
         getTopicDetailFromServer()
 
+        mReplyAdapter = ReplyRecyclerAdapter(mContext, mReplyList)
+        binding.replyRecyclerView.adapter = mReplyAdapter
+        binding.replyRecyclerView.layoutManager = LinearLayoutManager(mContext)
+
     }
 
     fun getTopicDetailFromServer () {
@@ -57,6 +68,22 @@ class DetailTopicActivity : BaseActivity() {
                     setTopicDataToUi()
                 }
 
+//                댓글 목록도 별도로 파싱
+
+                mReplyList.clear()
+
+                val repliesArr = topicObj.getJSONArray("replies")
+
+                for (i in 0 until repliesArr.length()) {
+                    val replyObj = repliesArr.getJSONObject(i)
+
+                    val replyData = ReplyData.getReplyDataFromJson(replyObj)
+
+                    mReplyList.add(replyData)
+                }
+                runOnUiThread {
+                    mReplyAdapter.notifyDataSetChanged()
+                }
             }
         })
     }
