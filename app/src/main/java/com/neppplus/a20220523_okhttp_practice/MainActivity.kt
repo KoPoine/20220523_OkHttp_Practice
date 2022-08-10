@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun getTopicListFromServer() {
-        ServerUtil.getRequestMainInfo(mContext, object : ServerUtil.Companion.JsonResponseHandler{
+        ServerUtil.getRequestMainInfo(mContext, object : ServerUtil.JsonResponseHandler{
             override fun onResponse(jsonObj: JSONObject) {
                 val dataObj = jsonObj.getJSONObject("data")
                 val topicArr = dataObj.getJSONArray("topics")
@@ -61,6 +61,13 @@ class MainActivity : BaseActivity() {
                     val topicObj = topicArr.getJSONObject(i)
 
                     Log.d("받아낸 주제", topicObj.toString())
+
+//                    val topicData = TopicData()
+//
+//                    topicData.id = topicObj.getInt("id")
+//                    topicData.title = topicObj.getString("title")
+//                    topicData.imageURL = topicObj.getString("img_url")
+//                    topicData.replyCount = topicObj.getInt("reply_count")
 
 //                    TopicData 변수를 생성 => topicObj 대입
                     val topicData = TopicData.getTopicDataFromJson(topicObj)

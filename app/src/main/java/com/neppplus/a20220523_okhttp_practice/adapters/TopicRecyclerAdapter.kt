@@ -5,8 +5,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -28,7 +26,7 @@ class TopicRecyclerAdapter(val mContext : Context, val mList : List<TopicData>) 
             binding.titleTxt.text = item.title
             binding.replyCountTxt.text = "${item.replyCount}명 참여중"
             Glide.with(mContext)
-                .load(item.imageUrl)
+                .load(item.imageURL)
                 .into(binding.backgroundImg)
 
             itemView.setOnClickListener {

@@ -66,7 +66,7 @@ class DetailTopicActivity : BaseActivity() {
 //        화면 초기 진입 실행 + 서버에서 다시 받아왔을때도 실행
 
         binding.titleTxt.text = mTopicData.title
-        Glide.with(mContext).load(mTopicData.imageUrl).into(binding.backgroundImg)
+        Glide.with(mContext).load(mTopicData.imageURL).into(binding.backgroundImg)
 
         binding.side1Txt.text = mTopicData.sideList[0].title
         binding.side2Txt.text = mTopicData.sideList[1].title
