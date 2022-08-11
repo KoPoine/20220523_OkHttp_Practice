@@ -31,8 +31,6 @@ class CustomAlertDialog (val context : Context, val activity : Activity) {
 
 
         if (isDelete) {
-//        [응용문제]
-//        실행될때 환인 버튼의 색상을 red (#ff0000) 변경 > 구글링
             binding.positiveBtn.setBackgroundColor(ContextCompat.getColor(context, R.color.red))
         }
 

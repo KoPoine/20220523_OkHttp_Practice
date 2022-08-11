@@ -5,10 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.neppplus.a20220523_okhttp_practice.DetailTopicActivity
 import com.neppplus.a20220523_okhttp_practice.R
 import com.neppplus.a20220523_okhttp_practice.databinding.TopicListItemBinding
 import com.neppplus.a20220523_okhttp_practice.models.ReplyData
+import com.neppplus.a20220523_okhttp_practice.utils.ContextUtil
+import com.neppplus.a20220523_okhttp_practice.utils.ServerUtil
+import org.json.JSONObject
 
 class ReplyRecyclerAdapter(
     val mContext: Context,
@@ -32,6 +37,42 @@ class ReplyRecyclerAdapter(
             replyCountTxt.text = "답글 : ${item.replyCount}개"
             likeCountTxt.text = "좋아요 : ${item.likeCount}개"
             dislikeCountTxt.text = "싫어요 : ${item.dislikeCount}개"
+
+            if (item.myLike) {
+                likeCountTxt.setBackgroundResource(R.drawable.red_border_box)
+            }
+            else {
+                likeCountTxt.setBackgroundResource(R.drawable.gray_border_box)
+            }
+
+            if (item.myDislike) {
+                dislikeCountTxt.setBackgroundResource(R.drawable.blue_border_box)
+            }
+            else {
+                dislikeCountTxt.setBackgroundResource(R.drawable.gray_border_box)
+            }
+
+            replyCountTxt.setOnClickListener {
+                Toast.makeText(mContext, "클릭", Toast.LENGTH_SHORT).show()
+            }
+
+            val token = ContextUtil.getLoginToken(mContext)
+
+            likeCountTxt.setOnClickListener {
+                ServerUtil.postRequestTopicReplyLike(token, item.id, true, object : ServerUtil.JsonResponseHandler{
+                    override fun onResponse(jsonObj: JSONObject) {
+                        (mContext as DetailTopicActivity).getTopicDetailFromServer()
+                    }
+                })
+            }
+
+            dislikeCountTxt.setOnClickListener {
+                ServerUtil.postRequestTopicReplyLike(token, item.id, false, object : ServerUtil.JsonResponseHandler{
+                    override fun onResponse(jsonObj: JSONObject) {
+                        (mContext as DetailTopicActivity).getTopicDetailFromServer()
+                    }
+                })
+            }
 
         }
     }

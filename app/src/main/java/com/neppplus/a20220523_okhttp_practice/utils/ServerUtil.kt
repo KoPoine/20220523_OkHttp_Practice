@@ -358,6 +358,35 @@ class ServerUtil {
                 }
             })
         }
+
+        fun postRequestTopicReplyLike(token:String, replyId : Int, isLike : Boolean, handler: JsonResponseHandler?) {
+            val urlString = "${BASE_URL}/topic_reply_like"
+
+            val formBody = FormBody.Builder()
+                .add("reply_id", replyId.toString())
+                .add("is_like", isLike.toString())
+                .build()
+
+            val request = Request.Builder()
+                .header("X-Http-Token", token)
+                .url(urlString)
+                .post(formBody)
+                .build()
+
+            val client = OkHttpClient()
+
+            client.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val jsonObj = JSONObject(response.body!!.string())
+                    Log.d("좋아요, 싫어요", jsonObj.toString())
+                    handler?.onResponse(jsonObj)
+                }
+            })
+        }
     }
 
 }
